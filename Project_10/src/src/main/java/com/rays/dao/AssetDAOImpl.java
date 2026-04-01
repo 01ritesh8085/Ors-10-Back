@@ -13,21 +13,21 @@ import com.rays.common.BaseDAOImpl;
 import com.rays.dto.AssetDTO;
 
 @Repository
-public class AssetDAOImpl extends BaseDAOImpl<AssetDTO> implements AssetDAOInt{
+public class AssetDAOImpl extends BaseDAOImpl<AssetDTO> implements AssetDAOInt {
 
 	@Override
 	protected List<Predicate> getWhereClause(AssetDTO dto, CriteriaBuilder builder, Root<AssetDTO> qRoot) {
-	
+
 		List<Predicate> whereCondition = new ArrayList<Predicate>();
 
 		if (!isEmptyString(dto.getAssetName())) {
 			whereCondition.add(builder.like(qRoot.get("assetName"), dto.getAssetName() + "%"));
 		}
-		
+
 		if (!isEmptyString(dto.getAssetStatus())) {
 			whereCondition.add(builder.like(qRoot.get("assetStatus"), dto.getAssetStatus() + "%"));
 		}
-		
+
 		if (isNotNull(dto.getIssueDate())) {
 			whereCondition.add(builder.equal(qRoot.get("issueDate"), dto.getIssueDate()));
 		}

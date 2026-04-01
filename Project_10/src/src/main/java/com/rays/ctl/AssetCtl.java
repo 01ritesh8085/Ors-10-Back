@@ -14,7 +14,7 @@ import com.rays.service.AssetServiceInt;
 
 @RestController
 @RequestMapping(value = "Asset")
-public class AssetCtl extends BaseCtl<AssetForm, AssetDTO, AssetServiceInt>{
+public class AssetCtl extends BaseCtl<AssetForm, AssetDTO, AssetServiceInt> {
 
 	@GetMapping("/preload")
 	public ORSResponse preload() {
