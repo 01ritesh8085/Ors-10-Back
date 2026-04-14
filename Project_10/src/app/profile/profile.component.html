@@ -1,0 +1,162 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .background {
+    padding-top: 3%;
+    padding-bottom: 13%;
+    background: url('assets/files/wall.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  .required-field {
+    color: red;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="container-fluid background" style="padding-top: 8%">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body shadow-lg grad">
+          <form name="assetForm">
+            <h2 *ngIf="!form.data.id" class="text-primary font-weight-bold" style="text-align: center;">
+              {{ 'Add Profile' | translate }}
+            </h2>
+            <h2 *ngIf="form.data.id" class="text-primary font-weight-bold" style="text-align: center;">
+              {{ 'Update Profile' | translate }}
+            </h2>
+
+            <!-- Form error messages -->
+            <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+            <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <!-- Name Field with Validation -->
+
+            <div class="form-group pt-2">
+              <label>
+                <b>{{ 'Full Name' | translate }}</b>
+                <span class="required-field">*</span>
+              </label>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-user grey-text"></i></div>
+                </div>
+
+                <input type="text" name="fullName" [(ngModel)]="form.data.fullName" class="form-control"
+                  placeholder="{{ 'Enter fullName' | translate }}">
+              </div>
+
+              <span *ngIf="form.inputerror.fullName" class="alertRedColor">{{ form.inputerror.fullName }}</span>
+            </div>
+
+
+            <div class="form-group pt-2">
+             <b>{{'Gender' | translate }}</b>
+                <span class="required-field">*</span>
+
+              <div class="col-sm-12">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-venus grey-text"></i> </div>
+                  </div>
+                  <select class="form-control" name="gender" id="gender" [(ngModel)]="form.data.gender"
+                    style="cursor: pointer;">
+                    <option [ngValue]="" value="undefined">{{'Please select' | translate }}</option>
+                    <option value="Male">{{'Male' | translate }} </option>
+                    <option value="Female">{{'Female' | translate }} </option>
+                  </select>
+                </div>
+              </div><span *ngIf="form.inputerror.gender != null" class="alertRedColor" style=" color: red;"> {{'gender'|
+                translate}} </span>
+              <!-- <span class="alertRedColor"> {{form.inputerror.gender}} </span> -->
+            </div>
+            <div class="form-group pt-2">
+
+              <b>{{'DOB' | translate }}</b>
+              <span class="required-field">*</span>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-table grey-text"></i> </div>
+                </div>
+                <input type="date" name="dob" [value]="form.data.dob | date:'yyyy-MM-dd'"
+                  (input)="form.data.dob=parseDate($event.target.value)" class="form-control form-control-sm"
+                  required />
+              </div>
+
+              <span *ngIf="form.inputerror.dob != null" class="alertRedColor" style=" color: red;"> {{'dob'|
+                translate}} </span>
+            </div>
+
+            <div class="form-group pt-2">
+              <label><b>{{ 'Profile Status' | translate }}</b><span class="required-field">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-paint-brush grey-text"></i></div>
+                </div>
+
+                <select class="form-control" name="profileStatus" [(ngModel)]="form.data.profileStatus"
+                  aria-label="ngSelected" required>
+                  <option [ngValue]="undefined">{{ 'Select profileStatus' | translate }}</option>
+                  <option value="Active">{{ 'Active' | translate }}</option>
+                  <option value="Inactive">{{ 'Inactive' | translate }}</option>
+                </select>
+              </div>
+              <span *ngIf="form.inputerror?.profileStatus" class="alertRedColor">{{ form.inputerror.profileStatus
+                }}</span>
+            </div>
+
+            <div class="row pt-2 pl-2 pb-3">
+
+              <div class="col-md-3"></div>
+
+              <div class="pt-2">
+                <button *ngIf="!form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  {{ 'Save' | translate }}
+                </button>
+              </div>
+
+              <div class="col-md-1"></div>
+
+              <div class="pt-2">
+                <button *ngIf="form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  {{ 'Update' | translate }}
+                </button>
+              </div>
+
+              <div class="pt-2">
+                <a class="btn btn-warning mr-1" type="button" [routerLink]="['/profilelist']"
+                  style="text-decoration: none; color: white;">
+                  {{ 'List' | translate }}
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,128 @@
+<app-navbar></app-navbar>
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+</style>
+
+<div class="row " style="padding-top: 10%; padding-bottom:5%;
+background: url(assets/files/wall.jpg) no-repeat center center;
+background-attachment: fixed;
+background-size: cover;width:auto;
+  height: auto;">
+
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body shadow-lg grad">
+        <form>
+          <h2 *ngIf="!form.data.id>0" class="text-primary font-weight-bold" style="text-align: center;">{{'Add
+            Compensation' | translate}}</h2>
+          <h2 *ngIf="form.data.id>0" class="text-primary font-weight-bold" style="text-align: center;">{{'Update
+            Compensation' | translate}}</h2>
+
+          <div *ngIf="!form.error && form.message != null" class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{form.message}}
+          </div>
+          <div *ngIf="form.error && form.message != null" class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{form.message}}
+          </div>
+
+          <div style="padding-top:3%">
+            <span class="pt-2"><b>{{'Staff Member' | translate}}</b>
+              <span class="required-field"></span></span>
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-id-card grey-text"></i> </div>
+                </div>
+                <input type="text" name="staffMember" [(ngModel)]="form.data.staffMember" class="form-control"
+                  placeholder="{{'Enter Staff Member' | translate}}">
+              </div>
+            </div>
+            <span class="alertRedColor" style=" color: red;"> {{form.inputerror.staffMember}} </span>
+          </div>
+
+          <div style="padding-top:3%">
+            <span class="pt-2"><b>{{'Payment Amount' | translate}}</b>
+              <span class="required-field"></span></span>
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-check grey-text"></i> </div>
+                </div>
+                <input type="text" name="paymentAmount" [(ngModel)]="form.data.paymentAmount" class="form-control"
+                  placeholder="{{'Enter Payment Amount' | translate}}">
+              </div>
+            </div>
+            <span class="alertRedColor" style=" color: red;"> {{form.inputerror.paymentAmount}} </span>
+          </div>
+
+           <div style="padding-top:3%">
+
+            <span class="pt-2"><b>{{'Date Applied' | translate }}</b>
+              <span class="required-field"></span></span>
+
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-table grey-text"></i> </div>
+                </div>
+                <input type="date" name="dateApplied" [value]="form.data.dateApplied | date:'yyyy-MM-dd'"
+                  (input)="form.data.dateApplied=parseDate($event.target.value)" class="form-control form-control-sm"
+                  required />
+              </div>
+            </div>
+            <span *ngIf="form.inputerror.dateApplied != null" class="alertRedColor" style=" color: red;"> {{'dateApplied'|
+              translate}} </span>
+            <!-- <span class="alertRedColor"> {{form.inputerror.dob}} </span> -->
+          </div>
+
+          <div style="padding-top:3%">
+            <span class="pt-2"><b>{{'State' | translate }}</b>
+              <span class="required-field"></span></span>
+
+            <div class="col-sm-12">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-venus grey-text"></i> </div>
+                </div>
+                <select class="form-control" name="state" id="state" [(ngModel)]="form.data.state"
+                  style="cursor: pointer;">
+                  <option [ngValue]="" value="undefined">{{'Please select' | translate }}</option>
+                  <option value="Active">{{'Active' | translate }} </option>
+                  <option value="Inactive">{{'Inactive' | translate }} </option>
+                </select>
+              </div>
+            </div><span *ngIf="form.inputerror.state != null" class="alertRedColor" style=" color: red;"> {{'state'|
+              translate}} </span>
+            <!-- <span class="alertRedColor"> {{form.inputerror.gender}} </span> -->
+          </div>
+
+          <div class="row pt-3 pl-3 pb-3">
+            <div class="pt-2">
+              <button *ngIf="!form.data.id>0" (click)="submit()" class="btn btn-success mr-2">
+                {{'Save' | translate}}</button>
+            </div>
+            <div class="pt-2">
+              <button *ngIf="form.data.id>0" (click)="submit()" class="btn btn-success mr-2">
+                {{'Update'| translate}}</button>
+            </div>
+            <div class="pt-2">
+              <button (click)="forward('/compensation')" type="button" class="btn btn-warning mr-1">{{'Back'|
+                translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,139 @@
+<app-navbar></app-navbar>
+
+<div class="content-wrapper" style="padding-top:12%">
+  <div class="container-fluid">
+
+    <h1 class="text-primary text-center">Transport List</h1>
+
+    <!-- Search Section -->
+    <div class="row search-inputs p-2 justify-content-center">
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.vehicleNumber"
+          placeholder="Vehicle Number">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.driverName"
+          placeholder="Driver Name">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.vehicleType"
+          placeholder="Vehicle Type">
+      </div>
+
+      <div class="col-sm-2">
+        <select class="form-control"
+          [(ngModel)]="form.searchParams.transportStatus">
+          <option [ngValue]="undefined">Select Status</option>
+          <option *ngFor="let s of form.preload.statusList | keyvalue"
+            [value]="s.value">
+            {{ s.value }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-primary w-100" (click)="submit()">
+          Search
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-success w-100" (click)="forward('/transport')">
+          Add Transport
+        </button>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-danger w-100" (click)="deleteMany()">
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="form.error && form.message"
+         class="alert alert-danger alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <div *ngIf="!form.error && form.message"
+         class="alert alert-success alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <!-- Table -->
+    <table class="table table-bordered table-dark mt-3">
+      <thead>
+        <tr align="center">
+          <th>
+            <input type="checkbox"
+              [(ngModel)]="isMasterSel"
+              (change)="checkUncheckAll($event)">
+          </th>
+          <th>S.No</th>
+          <th>Vehicle Number</th>
+          <th>Driver Name</th>
+          <th>Vehicle Type</th>
+          <th>Transport Status</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let t of form.list; let i = index" align="center">
+          <td>
+            <input type="checkbox" #checkboxes
+              [id]="t.id"
+              (change)="checklistUpdate()">
+          </td>
+
+          <td>{{ (form.pageNo * 5) + i + 1 }}</td>
+          <td>{{ t.vehicleNumber }}</td>
+          <td>{{ t.driverName }}</td>
+          <td>{{ t.vehicleType }}</td>
+          <td>{{ t.transportStatus }}</td>
+
+          <td>
+            <button class="fa fa-edit text-primary"
+              (click)="forward('/transport/' + t.id)">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination + Reset -->
+    <div class="d-flex justify-content-between mt-3">
+
+      <button class="btn btn-info"
+        (click)="previous()" [disabled]="form.pageNo == 0">
+        Previous
+      </button>
+
+      <div>
+        <a class="btn btn-warning mr-1"
+           [routerLink]="['/transportlist']"
+           (click)="exit()">
+          Reset
+        </a>
+      </div>
+
+      <button class="btn btn-info"
+        (click)="next()" [disabled]="nextList == 0">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

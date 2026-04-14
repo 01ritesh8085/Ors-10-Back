@@ -1,0 +1,125 @@
+<app-navbar></app-navbar>
+
+<div class="content-wrapper" style="padding-top:12%">
+  <div class="container-fluid">
+
+    <h1 class="text-primary text-center">Client List</h1>
+
+    <!-- Search Section -->
+    <div class="row search-inputs p-2 justify-content-center">
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.clientName"
+          placeholder="Client Name">
+      </div>
+
+      <div class="col-sm-2">
+        <select class="form-control"
+          [(ngModel)]="form.searchParams.priority">
+          <option [ngValue]="undefined">Select Priority</option>
+          <option *ngFor="let p of form.preload.priorityList | keyvalue"
+            [value]="p.value">
+            {{ p.value }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-primary w-100" (click)="submit()">
+          Search
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-success w-100" (click)="forward('/client')">
+          Add Client
+        </button>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-danger w-100" (click)="deleteMany()">
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="form.error && form.message"
+         class="alert alert-danger alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <div *ngIf="!form.error && form.message"
+         class="alert alert-success alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <!-- Table -->
+    <table class="table table-bordered table-dark mt-3">
+      <thead>
+        <tr align="center">
+          <th>
+            <input type="checkbox"
+              [(ngModel)]="isMasterSel"
+              (change)="checkUncheckAll($event)">
+          </th>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Phone</th>
+          <th>Priority</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let c of form.list; let i = index" align="center">
+          <td>
+            <input type="checkbox" #checkboxes
+              [id]="c.id"
+              (change)="checklistUpdate()">
+          </td>
+          <td>{{ (form.pageNo * 5) + i + 1 }}</td>
+          <td>{{ c.clientName }}</td>
+          <td>{{ c.address }}</td>
+          <td>{{ c.phone }}</td>
+          <td>{{ c.priority }}</td>
+          <td>
+            <button class="fa fa-edit text-primary"
+              (click)="forward('/client/' + c.id)">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination + Reset -->
+    <div class="d-flex justify-content-between mt-3">
+
+      <button class="btn btn-info"
+        (click)="previous()" [disabled]="form.pageNo == 0">
+        Previous
+      </button>
+
+      <div>
+        <a class="btn btn-warning mr-1"
+           [routerLink]="['/clientlist']"
+           (click)="exit()">
+          Reset
+        </a>
+      </div>
+
+      <button class="btn btn-info"
+        (click)="next()" [disabled]="nextList == 0">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

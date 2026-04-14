@@ -1,0 +1,142 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .background {
+    padding-top: 3%;
+    padding-bottom: 13%;
+    background: url('assets/files/wall.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  .required-field {
+    color: red;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="container-fluid background" style="padding-top: 12%">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body shadow-lg grad">
+
+          <form name="deliveryForm">
+
+            <h2 *ngIf="!form.data.id" class="text-primary font-weight-bold text-center">
+              Add Delivery
+            </h2>
+
+            <h2 *ngIf="form.data.id" class="text-primary font-weight-bold text-center">
+              Update Delivery
+            </h2>
+
+            <!-- Messages -->
+            <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <!-- Delivery Code -->
+            <div class="form-group pt-2">
+              <label><b>Delivery Code</b><span class="required-field">*</span></label>
+              <input type="text" name="deliveryCode" [(ngModel)]="form.data.deliveryCode"
+                class="form-control" placeholder="Enter Delivery Code">
+
+              <span *ngIf="form.inputerror.deliveryCode" class="alertRedColor">
+                {{ form.inputerror.deliveryCode }}
+              </span>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="form-group pt-2">
+              <label><b>Delivery Address</b><span class="required-field">*</span></label>
+              <input type="text" name="deliveryAddress" [(ngModel)]="form.data.deliveryAddress"
+                class="form-control" placeholder="Enter Delivery Address">
+
+              <span *ngIf="form.inputerror.deliveryAddress" class="alertRedColor">
+                {{ form.inputerror.deliveryAddress }}
+              </span>
+            </div>
+
+            <!-- Delivery Date -->
+            <div class="form-group pt-2">
+              <label><b>Delivery Date</b><span class="required-field">*</span></label>
+              <input type="date" name="deliveryDate" [(ngModel)]="form.data.deliveryDate"
+                class="form-control">
+
+              <span *ngIf="form.inputerror.deliveryDate" class="alertRedColor">
+                {{ form.inputerror.deliveryDate }}
+              </span>
+            </div>
+
+            <!-- Delivery Status -->
+            <div class="form-group pt-2">
+              <label><b>Delivery Status</b><span class="required-field">*</span></label>
+              <select class="form-control" name="deliveryStatus" [(ngModel)]="form.data.deliveryStatus">
+                <option [ngValue]="undefined">Select Status</option>
+
+                <option *ngFor="let s of form.preload.statusList | keyvalue" [value]="s.value">
+                  {{ s.value }}
+                </option>
+              </select>
+
+              <span *ngIf="form.inputerror.deliveryStatus" class="alertRedColor">
+                {{ form.inputerror.deliveryStatus }}
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row pt-2 pl-2 pb-3">
+
+              <div class="col-md-3"></div>
+
+              <div class="pt-2">
+                <button *ngIf="!form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Save
+                </button>
+              </div>
+
+              <div class="col-md-1"></div>
+
+              <div class="pt-2">
+                <button *ngIf="form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Update
+                </button>
+              </div>
+
+              <div class="pt-2">
+                <a class="btn btn-warning mr-1" [routerLink]="['/deliverylist']"
+                  style="color:white;text-decoration:none">
+                  List
+                </a>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

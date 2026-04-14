@@ -1,0 +1,138 @@
+<app-navbar></app-navbar>
+
+<div class="content-wrapper" style="padding-top:12%">
+  <div class="container-fluid">
+
+    <h1 class="text-primary text-center">Enrollment List</h1>
+
+    <!-- Search Section -->
+    <div class="row search-inputs p-2 justify-content-center">
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.enrollmentCode"
+          placeholder="Enrollment Code">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.studentName"
+          placeholder="Student Name">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="date" class="form-control"
+          [(ngModel)]="form.searchParams.enrollmentDate">
+      </div>
+
+      <div class="col-sm-2">
+        <select class="form-control"
+          [(ngModel)]="form.searchParams.enrollmentStatus">
+          <option [ngValue]="undefined">Select Status</option>
+          <option *ngFor="let s of form.preload.statusList | keyvalue"
+            [value]="s.value">
+            {{ s.value }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-primary w-100" (click)="submit()">
+          Search
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-success w-100" (click)="forward('/enrollment')">
+          Add Enrollment
+        </button>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-danger w-100" (click)="deleteMany()">
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="form.error && form.message"
+         class="alert alert-danger alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <div *ngIf="!form.error && form.message"
+         class="alert alert-success alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <!-- Table -->
+    <table class="table table-bordered table-dark mt-3">
+      <thead>
+        <tr align="center">
+          <th>
+            <input type="checkbox"
+              [(ngModel)]="isMasterSel"
+              (change)="checkUncheckAll($event)">
+          </th>
+          <th>S.No</th>
+          <th>Enrollment Code</th>
+          <th>Student Name</th>
+          <th>Enrollment Date</th>
+          <th>Enrollment Status</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let e of form.list; let i = index" align="center">
+          <td>
+            <input type="checkbox" #checkboxes
+              [id]="e.id"
+              (change)="checklistUpdate()">
+          </td>
+
+          <td>{{ (form.pageNo * 5) + i + 1 }}</td>
+          <td>{{ e.enrollmentCode }}</td>
+          <td>{{ e.studentName }}</td>
+          <td>{{ e.enrollmentDate }}</td>
+          <td>{{ e.enrollmentStatus }}</td>
+
+          <td>
+            <button class="fa fa-edit text-primary"
+              (click)="forward('/enrollment/' + e.id)">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination + Reset -->
+    <div class="d-flex justify-content-between mt-3">
+
+      <button class="btn btn-info"
+        (click)="previous()" [disabled]="form.pageNo == 0">
+        Previous
+      </button>
+
+      <div>
+        <a class="btn btn-warning mr-1"
+           [routerLink]="['/enrollmentlist']"
+           (click)="exit()">
+          Reset
+        </a>
+      </div>
+
+      <button class="btn btn-info"
+        (click)="next()" [disabled]="nextList == 0">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

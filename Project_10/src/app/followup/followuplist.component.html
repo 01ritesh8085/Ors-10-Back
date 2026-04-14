@@ -1,0 +1,133 @@
+<app-navbar></app-navbar>
+
+<div class="content-wrapper" style="padding-top:12%">
+  <div class="container-fluid">
+
+    <h1 class="text-primary text-center">FollowUp List</h1>
+
+    <!-- Search Section -->
+    <div class="row search-inputs p-2 justify-content-center">
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.patient"
+          placeholder="Patient">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.doctor"
+          placeholder="Doctor">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="date" class="form-control"
+          [(ngModel)]="form.searchParams.dob">
+      </div>
+
+      <div class="col-sm-2">
+        <input type="text" class="form-control"
+          [(ngModel)]="form.searchParams.fees"
+          placeholder="Fees">
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-primary w-100" (click)="submit()">
+          Search
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-success w-100" (click)="forward('/followup')">
+          Add FollowUp
+        </button>
+      </div>
+
+      <div class="col-sm-1">
+        <button class="btn btn-danger w-100" (click)="deleteMany()">
+          Delete
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="form.error && form.message"
+         class="alert alert-danger alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <div *ngIf="!form.error && form.message"
+         class="alert alert-success alert-dismissible fade show">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ form.message }}
+    </div>
+
+    <!-- Table -->
+    <table class="table table-bordered table-dark mt-3">
+      <thead>
+        <tr align="center">
+          <th>
+            <input type="checkbox"
+              [(ngModel)]="isMasterSel"
+              (change)="checkUncheckAll($event)">
+          </th>
+          <th>S.No</th>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>DOB</th>
+          <th>Fees</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let f of form.list; let i = index" align="center">
+          <td>
+            <input type="checkbox" #checkboxes
+              [id]="f.id"
+              (change)="checklistUpdate()">
+          </td>
+
+          <td>{{ (form.pageNo * 5) + i + 1 }}</td>
+          <td>{{ f.patient }}</td>
+          <td>{{ f.doctor }}</td>
+          <td>{{ f.dob }}</td>
+          <td>{{ f.fees }}</td>
+
+          <td>
+            <button class="fa fa-edit text-primary"
+              (click)="forward('/followup/' + f.id)">
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination + Reset -->
+    <div class="d-flex justify-content-between mt-3">
+
+      <button class="btn btn-info"
+        (click)="previous()" [disabled]="form.pageNo == 0">
+        Previous
+      </button>
+
+      <div>
+        <a class="btn btn-warning mr-1"
+           [routerLink]="['/followuplist']"
+           (click)="exit()">
+          Reset
+        </a>
+      </div>
+
+      <button class="btn btn-info"
+        (click)="next()" [disabled]="nextList == 0">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

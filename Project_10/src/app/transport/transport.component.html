@@ -1,0 +1,142 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .background {
+    padding-top: 3%;
+    padding-bottom: 13%;
+    background: url('assets/files/wall.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  .required-field {
+    color: red;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="container-fluid background" style="padding-top: 12%">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body shadow-lg grad">
+
+          <form name="transportForm">
+
+            <h2 *ngIf="!form.data.id" class="text-primary font-weight-bold text-center">
+              Add Transport
+            </h2>
+
+            <h2 *ngIf="form.data.id" class="text-primary font-weight-bold text-center">
+              Update Transport
+            </h2>
+
+            <!-- Messages -->
+            <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <!-- Vehicle Number -->
+            <div class="form-group pt-2">
+              <label><b>Vehicle Number</b><span class="required-field">*</span></label>
+              <input type="text" name="vehicleNumber" [(ngModel)]="form.data.vehicleNumber"
+                class="form-control" placeholder="Enter Vehicle Number">
+
+              <span *ngIf="form.inputerror.vehicleNumber" class="alertRedColor">
+                {{ form.inputerror.vehicleNumber }}
+              </span>
+            </div>
+
+            <!-- Driver Name -->
+            <div class="form-group pt-2">
+              <label><b>Driver Name</b><span class="required-field">*</span></label>
+              <input type="text" name="driverName" [(ngModel)]="form.data.driverName"
+                class="form-control" placeholder="Enter Driver Name">
+
+              <span *ngIf="form.inputerror.driverName" class="alertRedColor">
+                {{ form.inputerror.driverName }}
+              </span>
+            </div>
+
+            <!-- Vehicle Type -->
+            <div class="form-group pt-2">
+              <label><b>Vehicle Type</b><span class="required-field">*</span></label>
+              <input type="text" name="vehicleType" [(ngModel)]="form.data.vehicleType"
+                class="form-control" placeholder="Enter Vehicle Type">
+
+              <span *ngIf="form.inputerror.vehicleType" class="alertRedColor">
+                {{ form.inputerror.vehicleType }}
+              </span>
+            </div>
+
+            <!-- Transport Status -->
+            <div class="form-group pt-2">
+              <label><b>Transport Status</b><span class="required-field">*</span></label>
+              <select class="form-control" name="transportStatus" [(ngModel)]="form.data.transportStatus">
+                <option [ngValue]="undefined">Select Status</option>
+
+                <option *ngFor="let s of form.preload.statusList | keyvalue" [value]="s.value">
+                  {{ s.value }}
+                </option>
+              </select>
+
+              <span *ngIf="form.inputerror.transportStatus" class="alertRedColor">
+                {{ form.inputerror.transportStatus }}
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row pt-2 pl-2 pb-3">
+
+              <div class="col-md-3"></div>
+
+              <div class="pt-2">
+                <button *ngIf="!form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Save
+                </button>
+              </div>
+
+              <div class="col-md-1"></div>
+
+              <div class="pt-2">
+                <button *ngIf="form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Update
+                </button>
+              </div>
+
+              <div class="pt-2">
+                <a class="btn btn-warning mr-1" [routerLink]="['/transportlist']"
+                  style="color:white;text-decoration:none">
+                  List
+                </a>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

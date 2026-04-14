@@ -1,0 +1,137 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .background {
+    padding-top: 3%;
+    padding-bottom: 13%;
+    background: url('assets/files/wall.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  .required-field {
+    color: red;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="container-fluid background" style="padding-top: 12%">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body shadow-lg grad">
+
+          <form name="followupForm">
+
+            <h2 *ngIf="!form.data.id" class="text-primary font-weight-bold text-center">
+              Add FollowUp
+            </h2>
+
+            <h2 *ngIf="form.data.id" class="text-primary font-weight-bold text-center">
+              Update FollowUp
+            </h2>
+
+            <!-- Messages -->
+            <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <!-- Patient -->
+            <div class="form-group pt-2">
+              <label><b>Patient</b><span class="required-field">*</span></label>
+              <input type="text" name="patient" [(ngModel)]="form.data.patient"
+                class="form-control" placeholder="Enter Patient Name">
+
+              <span *ngIf="form.inputerror.patient" class="alertRedColor">
+                {{ form.inputerror.patient }}
+              </span>
+            </div>
+
+            <!-- Doctor -->
+            <div class="form-group pt-2">
+              <label><b>Doctor</b><span class="required-field">*</span></label>
+              <input type="text" name="doctor" [(ngModel)]="form.data.doctor"
+                class="form-control" placeholder="Enter Doctor Name">
+
+              <span *ngIf="form.inputerror.doctor" class="alertRedColor">
+                {{ form.inputerror.doctor }}
+              </span>
+            </div>
+
+            <!-- DOB -->
+            <div class="form-group pt-2">
+              <label><b>DOB</b><span class="required-field">*</span></label>
+              <input type="date" name="dob" [(ngModel)]="form.data.dob"
+                class="form-control">
+
+              <span *ngIf="form.inputerror.dob" class="alertRedColor">
+                {{ form.inputerror.dob }}
+              </span>
+            </div>
+
+            <!-- Fees -->
+            <div class="form-group pt-2">
+              <label><b>Fees</b><span class="required-field">*</span></label>
+              <input type="text" name="fees" [(ngModel)]="form.data.fees"
+                class="form-control" placeholder="Enter Fees">
+
+              <span *ngIf="form.inputerror.fees" class="alertRedColor">
+                {{ form.inputerror.fees }}
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row pt-2 pl-2 pb-3">
+
+              <div class="col-md-3"></div>
+
+              <div class="pt-2">
+                <button *ngIf="!form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Save
+                </button>
+              </div>
+
+              <div class="col-md-1"></div>
+
+              <div class="pt-2">
+                <button *ngIf="form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Update
+                </button>
+              </div>
+
+              <div class="pt-2">
+                <a class="btn btn-warning mr-1" [routerLink]="['/followuplist']"
+                  style="color:white;text-decoration:none">
+                  List
+                </a>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

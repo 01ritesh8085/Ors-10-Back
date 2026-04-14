@@ -1,0 +1,133 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .background {
+    padding-top: 3%;
+    padding-bottom: 13%;
+    background: url('assets/files/wall.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  .required-field {
+    color: red;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="container-fluid background" style="padding-top: 12%">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body shadow-lg grad">
+
+          <form name="clientForm">
+
+            <h2 *ngIf="!form.data.id" class="text-primary font-weight-bold text-center">
+              Add Client
+            </h2>
+            <h2 *ngIf="form.data.id" class="text-primary font-weight-bold text-center">
+              Update Client
+            </h2>
+
+            <!-- Messages -->
+            <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <!-- Client Name -->
+            <div class="form-group pt-2">
+              <label><b>Client Name</b><span class="required-field">*</span></label>
+              <input type="text" name="clientName" [(ngModel)]="form.data.clientName" class="form-control"
+                placeholder="Enter Client Name">
+              <span *ngIf="form.inputerror.clientName" class="alertRedColor">
+                {{ form.inputerror.clientName }}
+              </span>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group pt-2">
+              <label><b>Address</b><span class="required-field">*</span></label>
+              <input type="text" name="address" [(ngModel)]="form.data.address" class="form-control"
+                placeholder="Enter Address">
+              <span *ngIf="form.inputerror.address" class="alertRedColor">
+                {{ form.inputerror.address }}
+              </span>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group pt-2">
+              <label><b>Phone</b><span class="required-field">*</span></label>
+              <input type="text" name="phone" [(ngModel)]="form.data.phone" class="form-control"
+                placeholder="Enter Phone">
+              <span *ngIf="form.inputerror.phone" class="alertRedColor">
+                {{ form.inputerror.phone }}
+              </span>
+            </div>
+
+            <!-- Priority -->
+            <div class="form-group pt-2">
+              <label><b>Priority</b><span class="required-field">*</span></label>
+              <select class="form-control" name="priority" [(ngModel)]="form.data.priority">
+                <option [ngValue]="undefined">Select Priority</option>
+                <option *ngFor="let p of form.preload.priorityList | keyvalue" [value]="p.value">
+                  {{ p.value }}
+                </option>
+              </select>
+              <span *ngIf="form.inputerror.priority" class="alertRedColor">
+                {{ form.inputerror.priority }}
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row pt-2 pl-2 pb-3">
+              <div class="col-md-3"></div>
+
+              <div class="pt-2">
+                <button *ngIf="!form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Save
+                </button>
+              </div>
+
+              <div class="col-md-1"></div>
+
+              <div class="pt-2">
+                <button *ngIf="form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  Update
+                </button>
+              </div>
+
+              <div class="pt-2">
+                <a class="btn btn-warning mr-1" [routerLink]="['/clientlist']" style="color:white;text-decoration:none">
+                  List
+                </a>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

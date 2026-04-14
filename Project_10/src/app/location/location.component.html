@@ -1,0 +1,163 @@
+<app-navbar></app-navbar>
+
+<style>
+  .grad {
+    background-image: linear-gradient(to bottom right, rgb(32, 168, 168), rgb(219, 231, 237));
+    background-repeat: no-repeat;
+    background-size: 100%;
+    padding-bottom: 25px;
+  }
+
+  .background {
+    padding-top: 3%;
+    padding-bottom: 13%;
+    background: url('assets/files/wall.jpg') no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+    width: 100%;
+    height: auto;
+  }
+
+  .required-field {
+    color: red;
+  }
+
+  .alertRedColor {
+    color: red;
+  }
+</style>
+
+<div class="container-fluid background" style="padding-top: 8%">
+  <div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-lg-4">
+      <div class="card">
+        <div class="card-body shadow-lg grad">
+          <form name="assetForm">
+            <h2 *ngIf="!form.data.id" class="text-primary font-weight-bold" style="text-align: center;">
+              {{ 'Add Location' | translate }}
+            </h2>
+            <h2 *ngIf="form.data.id" class="text-primary font-weight-bold" style="text-align: center;">
+              {{ 'Update Location' | translate }}
+            </h2>
+
+            <!-- Form error messages -->
+            <div *ngIf="form.error && form.message" class="alert alert-danger alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+            <div *ngIf="!form.error && form.message" class="alert alert-success alert-dismissible fade show">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ form.message }}
+            </div>
+
+            <!-- Name Field with Validation -->
+
+            <div class="form-group pt-2">
+              <label>
+                <b>{{ 'City' | translate }}</b>
+                <span class="required-field">*</span>
+              </label>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-user grey-text"></i></div>
+                </div>
+
+                <input type="text" name="city" [(ngModel)]="form.data.city" class="form-control"
+                  placeholder="{{ 'Enter city' | translate }}">
+              </div>
+
+              <span *ngIf="form.inputerror.city" class="alertRedColor">{{ form.inputerror.city }}</span>
+            </div>
+
+
+            <div class="form-group pt-2">
+              <b>{{'State' | translate }}</b>
+              <span class="required-field">*</span>
+
+              <div class="col-sm-12">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-venus grey-text"></i> </div>
+                  </div>
+                  <select class="form-control" name="state" id="gender" [(ngModel)]="form.data.state"
+                    style="cursor: pointer;">
+                    <option [ngValue]="" value="undefined">{{'Please select' | translate }}</option>
+                    <option value="Madhya Pradesh">{{'Madhya Pradesh' | translate }} </option>
+                    <option value="Maharashtra">{{'Maharashtra' | translate }} </option>
+                  </select>
+                </div>
+              </div><span *ngIf="form.inputerror.state != null" class="alertRedColor" style=" color: red;"> {{'state'|
+                translate}} </span>
+              <!-- <span class="alertRedColor"> {{form.inputerror.gender}} </span> -->
+            </div>
+            <div class="form-group pt-2">
+              <label>
+                <b>{{ 'Country' | translate }}</b>
+                <span class="required-field">*</span>
+              </label>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-user grey-text"></i></div>
+                </div>
+
+                <input type="text" name="country" [(ngModel)]="form.data.country" class="form-control"
+                  placeholder="{{ 'Enter country' | translate }}">
+              </div>
+
+              <span *ngIf="form.inputerror.country" class="alertRedColor">{{ form.inputerror.country }}</span>
+            </div>
+
+
+            <div class="form-group pt-2">
+              <label><b>{{ 'Location Status' | translate }}</b><span class="required-field">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><i class="fa fa-paint-brush grey-text"></i></div>
+                </div>
+
+                <select class="form-control" name="locationStatus" [(ngModel)]="form.data.locationStatus"
+                  aria-label="ngSelected" required>
+                  <option [ngValue]="undefined">{{ 'Select locationStatus' | translate }}</option>
+                  <option value="Active">{{ 'Active' | translate }}</option>
+                  <option value="Inactive">{{ 'Inactive' | translate }}</option>
+                </select>
+              </div>
+              <span *ngIf="form.inputerror?.locationStatus" class="alertRedColor">{{ form.inputerror.locationStatus
+                }}</span>
+            </div>
+
+            <div class="row pt-2 pl-2 pb-3">
+
+              <div class="col-md-3"></div>
+
+              <div class="pt-2">
+                <button *ngIf="!form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  {{ 'Save' | translate }}
+                </button>
+              </div>
+
+              <div class="col-md-1"></div>
+
+              <div class="pt-2">
+                <button *ngIf="form.data.id > 0" (click)="submit()" class="btn btn-success mr-2">
+                  {{ 'Update' | translate }}
+                </button>
+              </div>
+
+              <div class="pt-2">
+                <a class="btn btn-warning mr-1" type="button" [routerLink]="['/locationlist']"
+                  style="text-decoration: none; color: white;">
+                  {{ 'List' | translate }}
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
