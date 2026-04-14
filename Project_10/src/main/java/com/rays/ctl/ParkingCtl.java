@@ -8,22 +8,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rays.common.BaseCtl;
 import com.rays.common.ORSResponse;
-import com.rays.dto.AssetDTO;
-import com.rays.form.AssetForm;
-import com.rays.service.AssetServiceInt;
+import com.rays.dto.ParkingDTO;
+import com.rays.form.ParkingForm;
+import com.rays.service.ParkingServiceInt;
 
 @RestController
-@RequestMapping(value = "Asset")
-public class AssetCtl extends BaseCtl<AssetForm, AssetDTO, AssetServiceInt> {
+@RequestMapping(value = "Parking")
+public class ParkingCtl extends BaseCtl<ParkingForm, ParkingDTO, ParkingServiceInt> {
 
 	@GetMapping("/preload")
 	public ORSResponse preload() {
 		ORSResponse res = new ORSResponse(true);
-		HashMap<Integer, String> map = new HashMap<Integer, String>();
-		map.put(1, "Activ");
-		map.put(2, "Inactive");
 
-		res.addResult("assetlist", map);
+		HashMap<Integer, String> map = new HashMap<>();
+		map.put(1, "Available");
+		map.put(2, "Full");
+
+		res.addResult("statusList", map);
+
 		return res;
 	}
 }
